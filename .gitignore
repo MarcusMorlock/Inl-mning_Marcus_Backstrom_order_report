@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Ignorera alla CSV-filer i hela projektet
+*.csv
+
+# Ignorera mappen Image inuti data/
+data/Image/
