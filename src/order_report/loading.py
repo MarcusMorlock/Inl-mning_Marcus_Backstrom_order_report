@@ -3,29 +3,21 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-# def load_csv_to_dataframe(file_name: str, file_folder:str) -> pd.DataFrame:
 
-#     folder = PROJECT_ROOT / file_folder
+def load_csv_to_dataframe(*path_segments: str | Path) -> pd.DataFrame:
+    """Load csv from project map into dataframe using Pandas.
 
-#     path = folder / file_name
+    Example:
+        load_csv_to_dataframe("data", "orders.csv")
+        load_csv_to_dataframe("data", "raw", "orders.csv")
+    """
 
-#     load_data = pd.read_csv(path)
+    file_path = PROJECT_ROOT.joinpath(*path_segments)
 
-#     return load_data
-
-def load_csv_to_dataframe(file_name: str, file_folder:str) -> pd.DataFrame:
-
-    clean_folder_path = file_folder.strip("/\\")
-
-    folder_path = PROJECT_ROOT / clean_folder_path 
-
-    if not folder_path.is_dir():
-        raise FileNotFoundError(f"Folder {clean_folder_path} could not be found.")
-
-    file_path = folder_path / file_name
-
+    # Check if file and folder is accurate and can be accessed
     if not file_path.is_file():
-        relative_path = f"{clean_folder_path}/{file_name}" if clean_folder_path else file_name
-        raise FileNotFoundError(f"File {file_name} not found at {relative_path}")
+        relative_display = Path(*path_segments)
+        raise FileNotFoundError(f"Filen saknas på sökvägen: {relative_display}")
 
     return pd.read_csv(file_path)
+
