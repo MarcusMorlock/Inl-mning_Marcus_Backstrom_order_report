@@ -1,0 +1,5 @@
+Metadata-Version: 2.4
+Name: order-report
+Version: 0.1.0
+Summary: Ett litet exempelpaket för temperaturberäkningar
+Requires-Python: >=3.13
