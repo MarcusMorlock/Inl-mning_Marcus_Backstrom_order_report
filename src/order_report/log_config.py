@@ -8,11 +8,10 @@ LOGGER_NAME ="order_report"
 
 def configure_log() -> None:
     """"""
-    
+
 
 
     return None
-
 
 
 
