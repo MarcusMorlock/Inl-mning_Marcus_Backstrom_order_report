@@ -13,7 +13,7 @@ def configure_log() -> None:
     if order_logger.handlers:
         return
 
-    order_logger.setLevel(logging.WARNING)
+    order_logger.setLevel(logging.DEBUG)
     order_logger.propagate = False
 
     formatter = logging.Formatter(
