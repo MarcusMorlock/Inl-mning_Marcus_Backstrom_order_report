@@ -14,5 +14,7 @@ def validate_order_df(df: pd.DataFrame) -> pd.DataFrame:
         "discount",
         "returned",
     }
-
+    if not required.issubset(df.columns):
+        raise Exception("Fel data")
+    
     return df
