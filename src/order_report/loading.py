@@ -5,7 +5,6 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-
 def load_csv_to_dataframe(*path_segments: str | Path) -> pd.DataFrame:
     """Load csv from project map into dataframe using Pandas.
 
