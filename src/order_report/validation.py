@@ -1,3 +1,5 @@
+"""Validating content"""
+
 import pandas as pd
 import logging
 

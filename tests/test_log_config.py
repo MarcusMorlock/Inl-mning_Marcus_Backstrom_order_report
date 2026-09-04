@@ -1,3 +1,5 @@
+"""Test logging functions"""
+
 import pytest
 import logging
 import re

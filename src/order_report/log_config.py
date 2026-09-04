@@ -1,4 +1,4 @@
-""""""
+"""Logging configuration"""
 
 import logging
 from pathlib import Path
