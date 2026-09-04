@@ -1,16 +1,20 @@
 """"""
 
 import logging
+from pathlib import Path
+
 
 LOGGER_NAME ="order_report"
+DEFAULT_LOG_FILE = "order_report.log"
 
 
 
-def configure_log() -> None:
+
+def configure_log(log_name: str = LOGGER_NAME, log_file: str = DEFAULT_LOG_FILE) -> None:
     """"""
-    order_logger = logging.getLogger(LOGGER_NAME)
+    order_logger = logging.getLogger(log_name)
 
-    if order_logger.handlers:
+    if any(isinstance(h, logging.FileHandler) for h in order_logger.handlers):
         return
 
     order_logger.setLevel(logging.DEBUG)
@@ -27,7 +31,7 @@ def configure_log() -> None:
     console_handler.setFormatter(formatter)
 
     file_handler = logging.FileHandler(
-        "order_report.log",
+        log_file,
         encoding="utf-8",
     )
     file_handler.setLevel(logging.DEBUG)
@@ -42,7 +46,8 @@ def configure_log() -> None:
 
 
 
-
+#Create folder in case folder don´t already exist.
+# Path(log_file).parent.mkdir(parents=True, exist_ok=True)
 
 
 # """Central configuration of packets logging."""
