@@ -9,7 +9,7 @@ from log_config import configure_log, LOGGER_NAME
 
 TEST_LOG_FILE = "tests/test_logs/test_run.log"
 
-#Clean RAM memory before and after each test.
+#Clear global logging handlers
 @pytest.fixture(autouse=True)
 def cleanup_logger():
     test_logger = logging.getLogger(LOGGER_NAME)
@@ -74,15 +74,3 @@ def test_configure_log_prevent_duplicate_handlers(tmp_path: Path, caplog) -> Non
 
     assert caplog.text.count("Single event check") == 1
 
-
-# def test_configure_log_manual_inspect():
-
-#     if Path(TEST_LOG_FILE).exists():
-#         Path(TEST_LOG_FILE).unlink()
-
-#     configure_log(log_name=LOGGER_NAME, log_file=TEST_LOG_FILE)
-
-
-#     logger = logging.getLogger(LOGGER_NAME)
-
-#     logger.info("This saves in tests/test_logs/test_run.log")

@@ -4,9 +4,9 @@ from pathlib import Path
 import pandas as pd
 import logging
 
-logger = logging.getLogger(__name__)
+from log_config  import LOGGER_NAME
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+logger = logging.getLogger(LOGGER_NAME)
 
 
 def load_csv_to_dataframe(file_path: str | Path) -> pd.DataFrame:
@@ -47,22 +47,3 @@ def save_from_dataframe_to_csv(df: pd.DataFrame, file_path: str | Path) -> None:
     except (PermissionError, OSError) as e:
         logger.error("Could not save dataframe to csv at: %s: %s", path, e)
         raise RuntimeError(f"Could not save csv file to {path}") from e
-
-
-# def load_csv_to_dataframe(*path_segments: str | Path) -> pd.DataFrame:
-#     """Load csv from project map into dataframe using Pandas.
-
-#     Example:
-#         load_csv_to_dataframe("data", "orders.csv")
-#         load_csv_to_dataframe("data", "raw", "orders.csv")
-#     """
-
-#     file_path = PROJECT_ROOT.joinpath(*path_segments)
-
-#     # Check if file and folder is accurate and can be accessed
-#     if not file_path.is_file():
-#         relative_display = Path(*path_segments)
-#         raise FileNotFoundError(f"Filen saknas på sökvägen: {relative_display}")
-
-#     return pd.read_csv(file_path)
-
