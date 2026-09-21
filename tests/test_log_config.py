@@ -5,7 +5,7 @@ import logging
 import re
 
 from pathlib import Path
-from order_report.log_config import configure_log, LOGGER_NAME
+from log_config import configure_log, LOGGER_NAME
 
 TEST_LOG_FILE = "tests/test_logs/test_run.log"
 
