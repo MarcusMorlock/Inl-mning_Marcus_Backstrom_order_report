@@ -9,4 +9,4 @@ description = "Ett litet exempelpaket för temperaturberäkningar"
 requires-python = ">=3.13"
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
