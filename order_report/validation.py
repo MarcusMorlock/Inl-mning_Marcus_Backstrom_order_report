@@ -23,7 +23,7 @@ def validate_order_df(df: pd.DataFrame) -> pd.DataFrame:
         
 
 
-    missing_columns = REQUIRED - set(df.columns) 
+    missing_columns = sorted(REQUIRED - set(df.columns))
 
     if missing_columns:
         logger.error("Validation failed. Missing columns: %s", missing_columns)

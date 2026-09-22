@@ -4,7 +4,7 @@ import pandas as pd
 import logging 
 import pytest
 
-from validate import validate_order_df, REQUIRED
+from order_report.validation import validate_order_df, REQUIRED
 
 def test_dataframe_validation_columns(caplog) -> None:
 
