@@ -1,4 +1,9 @@
 
+from .transform import(
+    returns_by_category,
+    sales_by_category,
+    overview
+)
 
 from .io import(
     load_csv_to_dataframe,
@@ -9,6 +14,10 @@ from .validation import(
     validate_order_df
 )
 
+from .processes import(
+    overview_order_report_dataframe
+)
+
 from .log_config import(
     configure_log
 )
@@ -17,5 +26,9 @@ __all__ = [
     "load_csv_to_dataframe",
     "save_from_dataframe_to_csv",
     "validate_order_df",
-    "configure_log"
+    "configure_log",
+    "returns_by_category",
+    "sales_by_category",
+    "overview",
+    "overview_order_report_dataframe"
 ]

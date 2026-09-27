@@ -21,9 +21,9 @@ REQUIRED = frozenset({
 
 def validate_order_df(df: pd.DataFrame) -> pd.DataFrame:
         
+    df_copy = df.copy()
 
-
-    missing_columns = sorted(REQUIRED - set(df.columns))
+    missing_columns = sorted(REQUIRED - set(df_copy.columns))
 
     if missing_columns:
         logger.error("Validation failed. Missing columns: %s", missing_columns)
@@ -31,4 +31,4 @@ def validate_order_df(df: pd.DataFrame) -> pd.DataFrame:
 
     logger.info("Dataframe validated and contain required columns: %d", len(REQUIRED))
 
-    return df
+    return df_copy
