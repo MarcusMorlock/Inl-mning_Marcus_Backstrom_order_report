@@ -1,4 +1,8 @@
 
+from .transform import(
+    save_csv_returns_by_category,
+    save_csv_sales_by_category
+)
 
 from .io import(
     load_csv_to_dataframe,
@@ -17,5 +21,7 @@ __all__ = [
     "load_csv_to_dataframe",
     "save_from_dataframe_to_csv",
     "validate_order_df",
-    "configure_log"
+    "configure_log",
+    "save_csv_returns_by_category",
+    "save_csv_sales_by_category"
 ]
