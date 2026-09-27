@@ -5,13 +5,16 @@ from pathlib import Path
 
 
 LOGGER_NAME ="order_report"
-DEFAULT_LOG_FILE = "order_report.log"
+DEFAULT_LOG_FILE = "logs/order_report.log"
 
 
 
 
-def configure_log(log_name: str = LOGGER_NAME, log_file: str = DEFAULT_LOG_FILE) -> None:
+def configure_log(log_name: str = LOGGER_NAME, log_path: str | Path = DEFAULT_LOG_FILE) -> None:
     """"""
+
+    log_path = Path(log_path)
+
     order_logger = logging.getLogger(log_name)
 
     if any(isinstance(h, logging.FileHandler) for h in order_logger.handlers):
@@ -30,8 +33,10 @@ def configure_log(log_name: str = LOGGER_NAME, log_file: str = DEFAULT_LOG_FILE)
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(formatter)
 
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+
     file_handler = logging.FileHandler(
-        log_file,
+        log_path,
         encoding="utf-8",
     )
     file_handler.setLevel(logging.DEBUG)

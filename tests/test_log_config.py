@@ -5,7 +5,7 @@ import logging
 import re
 
 from pathlib import Path
-from log_config import configure_log, LOGGER_NAME
+from order_report import configure_log, LOGGER_NAME
 
 TEST_LOG_FILE = "tests/test_logs/test_run.log"
 
@@ -27,7 +27,7 @@ def cleanup_logger():
 def test_configure_log_formatting_pattern(tmp_path: Path) -> None:
     test_log_file = tmp_path / "test_run.log"
 
-    configure_log(log_name=LOGGER_NAME, log_file=str(test_log_file))
+    configure_log(log_name=LOGGER_NAME, log_path=str(test_log_file))
 
     logger = logging.getLogger(LOGGER_NAME)
     message = "Test log output on disk"
@@ -46,7 +46,7 @@ def test_configure_log_creates_file_and_writes(tmp_path: Path) -> None:
     
     test_log_file = tmp_path / "test_run.log"
 
-    configure_log(log_name=LOGGER_NAME, log_file=str(test_log_file))
+    configure_log(log_name=LOGGER_NAME, log_path=str(test_log_file))
 
     logger = logging.getLogger(LOGGER_NAME)
     message = "Test log output on disk"
@@ -64,8 +64,8 @@ def test_configure_log_prevent_duplicate_handlers(tmp_path: Path, caplog) -> Non
     temp_file = tmp_path / "duplicate_check.log"
 
     
-    configure_log(log_name=LOGGER_NAME, log_file=str(temp_file))
-    configure_log(log_name=LOGGER_NAME, log_file=str(temp_file))
+    configure_log(log_name=LOGGER_NAME, log_path=str(temp_file))
+    configure_log(log_name=LOGGER_NAME, log_path=str(temp_file))
 
     logger = logging.getLogger(LOGGER_NAME)
 
