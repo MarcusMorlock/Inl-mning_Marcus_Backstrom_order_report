@@ -47,7 +47,7 @@ Det svåraste i projektet var framför allt tre saker:
 
 - Hitta rätt nivå på modularitet: Det var en balansgång att dela upp originalkoden i mindre, fokuserade funktioner utan att "över-atomisera" och stycka sönder flödet i för många mikrofuktioner.
 
-- Sökvägar och modulstruktur: Att bygga en sökvägshantering som var både modulär och konsekvent, så att paketet fungerar på exakt samma sätt oavsett om det körs från terminalen, testerna eller i Jupyter Notebooks.
+- Sökvägar och modulstruktur: Att bygga en sökvägshantering som var både modulär och konsekvent, så att paketet fungerar på exakt samma sätt oavsett om det körs från terminalen, testerna och i Jupyter Notebooks. 
 
 ### 7. Vad hade du velat förbättra ytterligare om du haft mer tid?
 * Utöka testtäckningen i `pytest` med fler kantfall för `validate.py` (t.ex. validering av negativa priser, ogiltiga datumformat eller extrema rabattsatser).
