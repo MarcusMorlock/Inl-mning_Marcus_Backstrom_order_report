@@ -1,16 +1,14 @@
-"""Transform data, sort by."""
+"""Transform data"""
 
 import pandas as pd
 
 import logging 
 
 from pathlib import Path
-from order_report import save_from_dataframe_to_csv
 
 
-def save_csv_sales_by_category(df: pd.DataFrame, output_path: str | Path, category: str) -> None:
 
-    output_path = Path(output_path)
+def sales_by_category(df: pd.DataFrame, category: str) -> pd.DataFrame:
 
     df_copy = df.copy()
 
@@ -18,8 +16,7 @@ def save_csv_sales_by_category(df: pd.DataFrame, output_path: str | Path, catego
             df_copy.groupby(
                 category,
                 as_index=False,
-            )
-            .agg(
+            ).agg(
                 order_count=("order_id", "nunique"),
                 total_sales=("discounted_value", "sum"),
                 returns=("returned", "sum"),
@@ -45,15 +42,13 @@ def save_csv_sales_by_category(df: pd.DataFrame, output_path: str | Path, catego
         )
     
 
-    save_from_dataframe_to_csv(grouped_df, output_path)
+    return grouped_df
 
 
-def save_csv_returns_by_category(df: pd.DataFrame, output_path: str | Path, category: str) -> None:
+def returns_by_category(df: pd.DataFrame, category: str) -> pd.DataFrame:
 
-    output_path = Path(output_path)
-
-    df_copy = df.copy
-
+    df_copy = df.copy()
+    
     returns_by_category = (
         df_copy.groupby(
             category,
@@ -66,8 +61,7 @@ def save_csv_returns_by_category(df: pd.DataFrame, output_path: str | Path, cate
     )
 
     returns_by_category["return_rate"] = (
-        returns_by_category["returns"]
-        / returns_by_category["order_count"]
+        returns_by_category["returns"] / returns_by_category["order_count"]
     ).round(3)
 
     returns_by_category = (
@@ -79,6 +73,32 @@ def save_csv_returns_by_category(df: pd.DataFrame, output_path: str | Path, cate
         .reset_index(drop=True)
     )
 
-    save_from_dataframe_to_csv(returns_by_category, output_path)
+    return returns_by_category
 
-    return None
+def overview(df: pd.DataFrame) -> pd.DataFrame:
+
+    df_copy = df.copy()
+
+    total_sales = round(
+        df_copy["discounted_value"].sum(),
+        2,
+    )
+    number_of_orders = df_copy["order_id"].nunique()
+    number_of_returns = int(df_copy["returned"].sum())
+
+    overview = pd.DataFrame(
+        {
+            "metric": [
+                "total_sales",
+                "order_count",
+                "return_count",
+            ],
+            "value": [
+                total_sales,
+                number_of_orders,
+                number_of_returns,
+            ],
+        }
+    )
+
+    return overview
