@@ -5,7 +5,7 @@ import logging
 from . import (
     configure_log,
     LOGGER_NAME,
-    DEFAULT_LOG_FILE,
+    ReportConfig,
     load_csv_to_dataframe,
     save_from_dataframe_to_csv,
     overview_order_report_dataframe,
@@ -18,14 +18,18 @@ from . import (
 def main() ->None:
     """Run Packet"""
 
+    path_config = ReportConfig()
+    path_config.ensure_directories()
+
+
     #Configure logging for application
-    configure_log(log_path="logs/order_report.log")
+    configure_log(log_path=path_config.log_path)
 
     logger = logging.getLogger(LOGGER_NAME)
     logger.info("Report from main started.")
 
     #Load Csv into DataFrame
-    df = load_csv_to_dataframe(file_path="data/orders.csv")
+    df = load_csv_to_dataframe(file_path=path_config.input_path)
     logger.info("Loaded from Main.")
 
     #Processes DataFrame and adding columns
@@ -43,10 +47,10 @@ def main() ->None:
     logger.info("processes from Main.")
 
     #Save Four Dataframe´s into CSV into map data_output
-    save_from_dataframe_to_csv(df=sales_by_region_df, file_path="data_output/sales_by_region.csv")
-    save_from_dataframe_to_csv(df=sales_by_product_category_df, file_path="data_output/sales_by_category.csv")
-    save_from_dataframe_to_csv(df=returns_by_category_df, file_path="data_output/returns_by_category.csv")
-    save_from_dataframe_to_csv(df=overview_df, file_path="data_output/overview.csv")
+    save_from_dataframe_to_csv(df=sales_by_region_df, file_path=f"{path_config.output_dir}/sales_by_region.csv")
+    save_from_dataframe_to_csv(df=sales_by_product_category_df, file_path=f"{path_config.output_dir}/sales_by_category.csv")
+    save_from_dataframe_to_csv(df=returns_by_category_df, file_path=f"{path_config.output_dir}/returns_by_category.csv")
+    save_from_dataframe_to_csv(df=overview_df, file_path=f"{path_config.output_dir}/overview.csv")
     logger.info("Saved DataFrame to data_output from Main.")
 
 

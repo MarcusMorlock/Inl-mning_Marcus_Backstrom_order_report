@@ -24,6 +24,10 @@ from .log_config import(
     DEFAULT_LOG_FILE
 )
 
+from .reporting import(
+    ReportConfig
+)
+
 __all__ = [
     "load_csv_to_dataframe",
     "save_from_dataframe_to_csv",
@@ -34,5 +38,6 @@ __all__ = [
     "returns_by_category",
     "sales_by_category",
     "overview",
-    "overview_order_report_dataframe"
+    "overview_order_report_dataframe",
+    "ReportConfig"
 ]
