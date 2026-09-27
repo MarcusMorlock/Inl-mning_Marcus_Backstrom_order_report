@@ -74,7 +74,6 @@ order_report_project/
 ├── logs/                  # Loggfiler från körningar
 ├── notebooks/             # Notebooks för tester och verifiering
 │   ├── output.ipynb
-│   └── testing.ipynb
 ├── order_report/          # Huvudpaketet
 │   ├── __init__.py        # Exporterar det publika gränssnittet
 │   ├── __main__.py        # Huvudstartpunkt (entry point för execution)
@@ -94,44 +93,3 @@ order_report_project/
 ├── pyproject.toml         # Paket- och beroendekonfiguration
 └── README.md              # Projekt- och reflektionsdokumentation
 ```
-
----
-
-## Reflektion
-
-### 1. Vilka var de viktigaste problemen i originalkoden?
-Originalkoden var uppbyggd som en monolit i en enda fil (`order_report.py`). De största bristerna var:
-* **Brutit mot Single Responsibility Principle (SRP):** Samma kodblock läste filer, tvättade data, utförde beräkningar och skrev till disk.
-* **Svårtestat:** Eftersom I/O var sammankopplat med beräkningarna gick det inte att enhetstesta transformeringar utan att skriva filer till disken.
-* **Bristfälligt felhanterande & logging:** Använde `print()` istället för strukturerad `logging`, samt en bred `except Exception` som dolde potentiella fel.
-* **Kodduplicering:** Samma `groupby`- och aggregeringslogik upprepades manuellt tre gånger för olika rapportvyer.
-
-### 2. Vilka förändringar tycker du förbättrade programmet mest?
-Separationen av ansvarsområden var den enskilt viktigaste förbättringen. Att bryta ut beräkningarna till rena funktioner (*pure functions*) i `transform.py` som enbart tar emot och returnerar `DataFrames` gjorde koden förutsägbar och testbar. Att ersätta `print()` med centraliserad `logging` i `log_config.py` samt hantera sökvägar dynamiskt via `pathlib` gjorde hela systemet robust.
-
-### 3. Varför valde du den projektstruktur du använde?
-Strukturen delar upp flödet i logiska lager:
-* `io.py` hanterar enbart filsystemet.
-* `validation.py` säkerställer dataintegritet.
-* `processes.py` och `transform.py` hanterar datatransformation.
-* `__main__.py` fungerar som orkestrerare.
-
-Detta gör projektet lättnavigerat för andra utvecklare – vill man lägga till en ny rapport behöver man bara lägga till en funktion i `transform.py` utan att riskera att förstöra I/O- eller valideringslogik.
-
-### 4. Var använde du OOP/dataclass och varför passade det där?
-I `reporting.py` användes en `@dataclass` (t.ex. `ReportConfig`) för att hantera konfigurationsinställningar och sökvägar. Det kapslar in inställningar på ett typsäkert och oföränderligt (*immutable*) sätt istället för att skicka runt lösa strängar och hårdkodade argument i pipeline-funktionerna.
-
-### 5. Vilka viktiga beteenden skyddar dina automatiska tester, och vilken nytta ger testerna om programmet förändras i framtiden?
-Testerna i `tests/` täcker tre centrala områden:
-* `test_io.py`: Verifierar att korrekt fel kastas (`FileNotFoundError`) om indata saknas och att CSV-filer skrivs korrekt.
-* `test_validation.py`: Säkerställer att datamodellen upptäcker och stoppar skadad data som saknar obligatoriska kolumner (`ValueError`).
-* `test_log_config.py`: Kontrollerar att loggningskonfigurationen inte skapar duplicerade handlers.
-
-Testerna fungerar som ett säkerhetsnät vid framtida refaktorisering eller tillägg av funktioner (regressionsskydd).
-
-### 6. Vad var svårast?
-Att sätta knivskarpa gränser för varje moduls ansvar (SRP) – särskilt att helt rensa bort I/O-beroenden från transformations- och bearbetningsmodulerna, samt att hantera relativa sökvägar och moduleringsimporter så att paketet exekverar sömlöst både från terminalen och i Jupyter Notebooks.
-
-### 7. Vad hade du velat förbättra ytterligare om du haft mer tid?
-* Utöka testtäckningen i `pytest` med fler kantfall för `processes.py` (t.ex. validering av negativa priser, ogiltiga datumformat eller extrema rabattsatser).
-* Lägga till CLI-argumenthantering via `argparse` i `__main__.py` så att användare kan skicka in anpassade filvägar direkt från terminalen.
