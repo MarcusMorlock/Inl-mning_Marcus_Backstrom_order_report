@@ -19,7 +19,9 @@ from .processes import(
 )
 
 from .log_config import(
-    configure_log
+    configure_log,
+    LOGGER_NAME,
+    DEFAULT_LOG_FILE
 )
 
 __all__ = [
@@ -27,6 +29,8 @@ __all__ = [
     "save_from_dataframe_to_csv",
     "validate_order_df",
     "configure_log",
+    "LOGGER_NAME",
+    "DEFAULT_LOG_FILE",
     "returns_by_category",
     "sales_by_category",
     "overview",
