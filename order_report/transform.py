@@ -6,14 +6,15 @@ import logging
 
 from pathlib import Path
 
+from .validation import validate_order_df
 
 
 def sales_by_category(df: pd.DataFrame, category: str) -> pd.DataFrame:
 
-    df_copy = df.copy()
+    validated_df = validate_order_df(df=df)
 
     grouped_df = (
-            df_copy.groupby(
+            validated_df.groupby(
                 category,
                 as_index=False,
             ).agg(
@@ -47,10 +48,10 @@ def sales_by_category(df: pd.DataFrame, category: str) -> pd.DataFrame:
 
 def returns_by_category(df: pd.DataFrame, category: str) -> pd.DataFrame:
 
-    df_copy = df.copy()
+    validated_df = validate_order_df(df=df)
     
     returns_by_category = (
-        df_copy.groupby(
+        validated_df.groupby(
             category,
             as_index=False,
         )
@@ -77,14 +78,14 @@ def returns_by_category(df: pd.DataFrame, category: str) -> pd.DataFrame:
 
 def overview(df: pd.DataFrame) -> pd.DataFrame:
 
-    df_copy = df.copy()
+    validated_df = validate_order_df(df=df)
 
     total_sales = round(
-        df_copy["discounted_value"].sum(),
+        validated_df["discounted_value"].sum(),
         2,
     )
-    number_of_orders = df_copy["order_id"].nunique()
-    number_of_returns = int(df_copy["returned"].sum())
+    number_of_orders = validated_df["order_id"].nunique()
+    number_of_returns = int(validated_df["returned"].sum())
 
     overview = pd.DataFrame(
         {
