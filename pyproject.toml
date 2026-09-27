@@ -7,6 +7,9 @@ name = "order-report"
 version = "0.1.0"
 description = "Ett litet exempelpaket för temperaturberäkningar"
 requires-python = ">=3.13"
+dependencies = [
+    "pandas>=2.0.0",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]
