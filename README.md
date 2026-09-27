@@ -48,6 +48,8 @@ Detta exekverar pipeline-flödet i `order_report/__main__.py`:
 3. Validerar och tvättar datan i memory.
 4. Genererar rapporter och sparar resultaten som CSV-filer i `data_output/`.
 
+Eller Report.ipynb i notebooks
+
 ---
 
 ## Hur testerna körs
