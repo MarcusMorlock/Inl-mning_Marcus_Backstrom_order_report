@@ -5,8 +5,11 @@ import logging
 
 from .validation import validate_order_df
 
-def overview_order_report_dataframe (df: pd.DataFrame) -> pd.DataFrame:
+def overview_order_report_dataframe (df: pd.DataFrame, fill_na: bool = True) -> pd.DataFrame:
+    """
+        If fill_na is true unit_price and quantity and discount will be filled any NA in code.
 
+    """
     logger = logging.getLogger(__name__)
 
     validated_df = validate_order_df(df=df)
@@ -25,16 +28,17 @@ def overview_order_report_dataframe (df: pd.DataFrame) -> pd.DataFrame:
             validated_df[col], errors="coerce"
         )
 
-    logger.info("Fill unit_price NA with median.")
-    validated_df["unit_price"] = validated_df["unit_price"].fillna(
-        validated_df["unit_price"].median()
-    )
+    if fill_na:
+        logger.info("Fill unit_price NA with median.")
+        validated_df["unit_price"] = validated_df["unit_price"].fillna(
+            validated_df["unit_price"].median()
+        )
+        # As unit_price is filled with median this is not a report able to be used for any legal usage as it´s falsified information.
+        logger.warning("unit_price HAVE BEEN FILLED WITH MEDIAN CANNOT BE USED FOR LEGAL USAGE.")
 
-    # As unit_price is filled with median this is not a report able to be used for any legal usage as it´s falsified information.
-    logger.warning("unit_price HAVE BEEN FILLED WITH MEDIAN CANNOT BE USED FOR LEGAL USAGE.")
-
-    logger.info("Fill quantity NA with 1, fill discount NA with 0")
-    validated_df = validated_df.fillna({"quantity": 1, "discount": 0})
+    if fill_na:
+        logger.info("Fill quantity NA with 1, fill discount NA with 0")
+        validated_df = validated_df.fillna({"quantity": 1, "discount": 0})
 
 
     validated_df["returned"] = (
